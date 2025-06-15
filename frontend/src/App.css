@@ -41,6 +41,11 @@ body {
   gap: 2rem;
 }
 
+/* Logo clickable */
+.logo {
+  cursor: pointer;
+}
+
 .logo h1 {
   color: #00ffff;
   font-size: 1.8rem;
