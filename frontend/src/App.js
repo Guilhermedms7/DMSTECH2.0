@@ -21,6 +21,7 @@ const App = () => {
   useEffect(() => {
     initializeDatabase();
     loadProducts();
+    loadCart();
   }, []);
 
   const initializeDatabase = async () => {
@@ -49,18 +50,56 @@ const App = () => {
     setLoading(false);
   };
 
+  const loadCart = async () => {
+    try {
+      const response = await axios.get(`${API}/cart/${currentUser.id}`);
+      setCartItems(response.data);
+      
+      // Load full product details for cart items
+      const cartWithProducts = await Promise.all(
+        response.data.map(async (item) => {
+          try {
+            const productResponse = await axios.get(`${API}/products/${item.product_id}`);
+            return { ...item, product: productResponse.data };
+          } catch (error) {
+            console.error('Error loading product for cart item:', error);
+            return item;
+          }
+        })
+      );
+      setCart(cartWithProducts);
+    } catch (error) {
+      console.error('Error loading cart:', error);
+    }
+  };
+
   const searchProducts = async (term) => {
     if (!term.trim()) {
       loadProducts();
+      setCurrentPage('home');
       return;
     }
     
     setLoading(true);
     try {
-      const response = await axios.get(`${API}/products?search=${term}`);
+      const response = await axios.get(`${API}/products?search=${encodeURIComponent(term)}`);
       setProducts(response.data);
+      setCurrentPage('search-results');
     } catch (error) {
       console.error('Error searching products:', error);
+    }
+    setLoading(false);
+  };
+
+  const loadProductsByCategory = async (category) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${API}/products?category=${encodeURIComponent(category)}`);
+      setProducts(response.data);
+      setSelectedCategory(category);
+      setCurrentPage('category-products');
+    } catch (error) {
+      console.error('Error loading products by category:', error);
     }
     setLoading(false);
   };
@@ -73,8 +112,18 @@ const App = () => {
         quantity: 1
       });
       alert('Produto adicionado ao carrinho!');
+      loadCart(); // Reload cart to update count
     } catch (error) {
       console.error('Error adding to cart:', error);
+    }
+  };
+
+  const removeFromCart = async (cartItemId) => {
+    try {
+      await axios.delete(`${API}/cart/${cartItemId}`);
+      loadCart(); // Reload cart
+    } catch (error) {
+      console.error('Error removing from cart:', error);
     }
   };
 
