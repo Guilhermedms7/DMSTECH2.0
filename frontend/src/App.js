@@ -354,18 +354,119 @@ const App = () => {
     </div>
   );
 
-  const ProductsPage = () => (
-    <div className="products-page">
+  const CartPage = () => (
+    <div className="cart-page">
       <div className="container">
-        <h1>Todos os Produtos</h1>
+        <h1>🛒 Meu Carrinho</h1>
+        {cart.length === 0 ? (
+          <div className="empty-cart">
+            <h2>Seu carrinho está vazio</h2>
+            <p>Adicione alguns produtos incríveis para começar!</p>
+            <button className="btn-primary" onClick={() => setCurrentPage('home')}>
+              Continuar Comprando
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="cart-items">
+              {cart.map(item => (
+                <div key={item.id} className="cart-item">
+                  <div className="cart-item-image">
+                    <img src={item.product?.image_url} alt={item.product?.name} />
+                  </div>
+                  <div className="cart-item-info">
+                    <h3>{item.product?.name}</h3>
+                    <p className="cart-item-brand">{item.product?.brand}</p>
+                    <div className="cart-item-price">
+                      <span>{formatPrice(item.product?.price || 0)}</span>
+                    </div>
+                  </div>
+                  <div className="cart-item-quantity">
+                    <span>Qtd: {item.quantity}</span>
+                  </div>
+                  <div className="cart-item-total">
+                    <span>{formatPrice((item.product?.price || 0) * item.quantity)}</span>
+                  </div>
+                  <div className="cart-item-actions">
+                    <button 
+                      className="remove-btn"
+                      onClick={() => removeFromCart(item.id)}
+                    >
+                      🗑️ Remover
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="cart-summary">
+              <div className="cart-total">
+                <h3>Total: {formatPrice(cart.reduce((total, item) => total + ((item.product?.price || 0) * item.quantity), 0))}</h3>
+              </div>
+              <div className="cart-actions">
+                <button className="btn-secondary" onClick={() => setCurrentPage('home')}>
+                  Continuar Comprando
+                </button>
+                <button className="btn-primary large">
+                  Finalizar Compra
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+
+  const SearchResultsPage = () => (
+    <div className="search-results-page">
+      <div className="container">
+        <h1>🔍 Resultados da Busca: "{searchTerm}"</h1>
+        {loading ? (
+          <div className="loading">Buscando produtos...</div>
+        ) : products.length === 0 ? (
+          <div className="no-results">
+            <h2>Nenhum produto encontrado</h2>
+            <p>Tente buscar por outros termos ou explore nossas categorias.</p>
+            <button className="btn-primary" onClick={() => setCurrentPage('home')}>
+              Voltar ao Início
+            </button>
+          </div>
+        ) : (
+          <>
+            <p className="results-count">Encontrados {products.length} produtos</p>
+            <div className="product-grid">
+              {products.map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+
+  const CategoryProductsPage = () => (
+    <div className="category-products-page">
+      <div className="container">
+        <h1>📱 {selectedCategory}</h1>
         {loading ? (
           <div className="loading">Carregando produtos...</div>
-        ) : (
-          <div className="product-grid">
-            {products.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+        ) : products.length === 0 ? (
+          <div className="no-results">
+            <h2>Nenhum produto encontrado nesta categoria</h2>
+            <button className="btn-primary" onClick={() => setCurrentPage('home')}>
+              Voltar ao Início
+            </button>
           </div>
+        ) : (
+          <>
+            <p className="results-count">{products.length} produtos encontrados</p>
+            <div className="product-grid">
+              {products.map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>
