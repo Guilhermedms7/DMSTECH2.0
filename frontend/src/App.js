@@ -11,7 +11,9 @@ const App = () => {
   const [saleProducts, setSaleProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [cart, setCart] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentUser] = useState({ id: 'user123', name: 'Gamer' }); // Mock user
