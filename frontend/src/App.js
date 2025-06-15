@@ -472,12 +472,35 @@ const App = () => {
     </div>
   );
 
+  const ProductsPage = () => (
+    <div className="products-page">
+      <div className="container">
+        <h1>Todos os Produtos</h1>
+        {loading ? (
+          <div className="loading">Carregando produtos...</div>
+        ) : (
+          <div className="product-grid">
+            {products.map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
   const renderCurrentPage = () => {
     switch (currentPage) {
       case 'home':
         return <HomePage />;
       case 'products':
         return <ProductsPage />;
+      case 'cart':
+        return <CartPage />;
+      case 'search-results':
+        return <SearchResultsPage />;
+      case 'category-products':
+        return <CategoryProductsPage />;
       case 'product-detail':
         return <ProductDetail product={selectedProduct} />;
       default:
