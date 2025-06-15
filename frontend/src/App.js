@@ -264,22 +264,22 @@ const App = () => {
       <div className="container">
         <h2 className="section-title">Categorias</h2>
         <div className="category-grid">
-          <div className="category-card">
+          <div className="category-card" onClick={() => loadProductsByCategory('Componentes')}>
             <img src="https://images.unsplash.com/photo-1555618568-bdf0a992c512?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwyfHxncmFwaGljcyUyMGNhcmR8ZW58MHx8fHwxNzQ5OTQwNzk0fDA&ixlib=rb-4.1.0&q=85" alt="Componentes" />
             <h3>Componentes</h3>
             <p>Placas de Vídeo, Processadores</p>
           </div>
-          <div className="category-card">
+          <div className="category-card" onClick={() => loadProductsByCategory('Computadores')}>
             <img src="https://images.unsplash.com/photo-1622013378145-e8d89cfbd990?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHwzfHxnYW1pbmclMjBQQ3xlbnwwfHx8fDE3NDk5NDA3OTh8MA&ixlib=rb-4.1.0&q=85" alt="PCs Gamer" />
-            <h3>PCs Gamer</h3>
-            <p>Computadores Prontos</p>
+            <h3>Computadores</h3>
+            <p>PCs Gamer Completos</p>
           </div>
-          <div className="category-card">
+          <div className="category-card" onClick={() => loadProductsByCategory('Periféricos')}>
             <img src="https://images.pexels.com/photos/2115256/pexels-photo-2115256.jpeg" alt="Periféricos" />
             <h3>Periféricos</h3>
             <p>Mouses, Teclados, Headsets</p>
           </div>
-          <div className="category-card">
+          <div className="category-card" onClick={() => loadProductsByCategory('Monitores')}>
             <img src="https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg" alt="Monitores" />
             <h3>Monitores</h3>
             <p>Gaming, 4K, Ultrawide</p>
