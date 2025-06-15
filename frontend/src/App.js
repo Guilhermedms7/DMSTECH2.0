@@ -138,8 +138,8 @@ const App = () => {
     <header className="header">
       <div className="container">
         <div className="header-content">
-          <div className="logo">
-            <h1>🎮 TechStore</h1>
+          <div className="logo" onClick={() => setCurrentPage('home')}>
+            <h1>⚡ DMSTECH</h1>
             <span>Gaming & Tech</span>
           </div>
           
@@ -149,7 +149,11 @@ const App = () => {
               placeholder="Buscar produtos..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && searchProducts(searchTerm)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  searchProducts(searchTerm);
+                }
+              }}
             />
             <button onClick={() => searchProducts(searchTerm)}>🔍</button>
           </div>
@@ -161,7 +165,7 @@ const App = () => {
             <button className="nav-btn" onClick={() => setCurrentPage('products')}>
               📱 Produtos
             </button>
-            <button className="cart-btn">
+            <button className="cart-btn" onClick={() => setCurrentPage('cart')}>
               🛒 Carrinho ({cart.length})
             </button>
           </div>
